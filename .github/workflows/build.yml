@@ -1,0 +1,24 @@
+name: Build executable
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      - name: Run build script
+        run: .\build.cmd
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: WandEnhancer
+          path: |
+            **/WandEnhancer.exe
+            !**/obj/**
